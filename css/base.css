@@ -1,0 +1,116 @@
+:root {
+    --azul1: #082032;
+    --naranja: #FF4C29;
+}
+*{  
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+body{
+    background-color: #FFFFFF;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: max-content 1fr max-content;
+    overflow-x: hidden;
+}
+.container{
+    padding: 0 10vw;
+}
+.nav{
+    background-color: var(--azul1);
+    width: 100vw;
+    height: 3.5rem;
+    display: grid;
+    grid-template-columns: max-content 1fr max-content;
+    gap: 1rem;
+}
+.nav .logo{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #FFFFFF;
+}
+.nav .busqueda{
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.busqueda input{
+    font-weight: 400;
+    font-family: 'Montserrat', sans-serif;
+    height: 2rem;
+    font-size: .9rem;
+    border: none;
+    padding-left: 2.5rem;
+    background: url(../img/search_black_24dp.svg) #FFFFFF no-repeat;
+    background-size: 1.5rem;
+    background-position: .8rem 50%;
+}
+.btn{
+    border: none;
+    border-radius: .3rem;
+    height: 2rem;
+    width: 8rem;
+    font-size: .9rem;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+}
+.nav .botones{
+    height: 100%;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+.botones .btnLogin{
+    color: var(--naranja);
+    border: 1.5px solid var(--naranja);
+    background-color: #FFFFFF;
+}
+.botones .btnRegistro{
+    color: #FFFFFF;
+    background-color: var(--naranja);
+}
+
+.main{
+    width: 100vw;
+}
+
+.footer{
+    width: 100vw;
+    height: 12rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+}
+.footer .footer_redes{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.footer_logo p{
+    color: var(--azul1);
+    font-size: 1.1rem;
+}
+.footer_redes p{
+    font-size: .7rem;
+}
+.footer_redes .redes_follow{
+    display: flex;
+    gap: .5rem;
+    color: var(--naranja);
+}
+.footer_redes .redes_follow p,
+.footer_redes .redes_follow i {
+    font-size: 1rem;
+}

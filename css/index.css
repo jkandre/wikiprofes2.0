@@ -1,0 +1,133 @@
+.heroA{
+    height: 80vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 3rem;
+}
+.heroA .heroA_img{
+    height: 100%;
+    width: 100%;
+    background-image: url(../img/heroA.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.heroA .heroA_text{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.heroA_text .heroA_content{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+}
+.heroA_content h1{
+    font-size: 3.5rem;
+    font-weight: 300;
+}
+.heroA_content input{
+    font-weight: 400;
+    font-family: 'Montserrat', sans-serif;
+    height: 2.3rem;
+    font-size: 1rem;
+    border: none;
+    padding-left: 2.5rem;
+    background: url(../img/search_black_24dp.svg) #CFCFCF no-repeat;
+    color: #FF4C29;
+    background-size: 1.5rem;
+    background-position: .8rem 50%;
+}
+.bodyA{
+    width: 100vw;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+}
+.bodyA h1{
+    font-weight: 300;
+    font-size: 2rem;
+}
+.bodyA .bodyA_funciones{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+}
+.bodyA_funciones .bodyA_funcion{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 3rem;
+} 
+.bodyA_funcion h3{
+    font-size: 1.1rem;  
+}
+.bodyA_funcion p{
+    font-weight: 300;
+    font-size: 1.1rem;  
+}
+.bodyA_funcion button{
+    align-self: flex-start;
+    font-weight: 400;
+    font-size: 1.1rem;
+    width: 10rem;  
+    background-color: #FF4C29;
+    color: #FFFFFF;
+}
+.bodyB{
+    width: 100vw;
+    height: 80vh;
+    margin-bottom: 3rem;
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-rows: max-content 1fr;
+    gap: 2rem;
+}
+.bodyB .bodyB_titulo{
+    grid-column: 1 / 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1.3rem;
+}
+.bodyB_titulo h1{
+    font-weight: 400;
+    font-size: 2rem;
+}
+.bodyB_titulo h2{
+    font-weight: 400;
+    font-size: 1.4rem;
+}
+.bodyB .bodyB_funciones{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+.bodyB_funciones .bodyB_funcion{
+    display: flex;
+    flex-direction: column;
+    gap: .7rem;
+    width: 70%;
+}
+.bodyB_funcion h3{
+    font-size: 1.1rem;  
+}
+.bodyB_funcion p{
+    font-weight: 300;
+    font-size: 1.1rem;  
+}
+.bodyB .bodyB_img{
+    height: 100%;
+    width: 100%;
+    background-image: url(../img/heroB.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
