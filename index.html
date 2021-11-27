@@ -1,3 +1,12 @@
+<?php
+//SEGURIDAD DE SESIONES
+session_start();
+    error_reporting(0);
+    $varsesion= $_SESSION['correo'];
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,9 +36,45 @@
         <div class="busqueda">
             <!--<input type="text" placeholder="Busca a tu profesor...">-->
         </div>
+
         <div class="botones">
-            <button class="btn btnLogin">Log In</button>
-            <button class="btn btnRegistro">Registrate</button>
+           
+        
+        
+            <?php
+                if($varsesion==null){?>
+
+            <form action="login.php"method="POST">
+                <div class="form-group">
+                    <button class="btn btnLogin">Log In</button>
+                    </div>
+                </form>
+            <form action="registro.php"method="POST">
+                <div class="form-group">
+                    <button class="btn btnRegistro">Registrate</button>
+                    </div>
+                
+                    </form>
+            <?php }?>
+
+            <?php
+            if($varsesion!=null){?>
+                <div class="logo">
+            <h1>Bienvenido: </h1><pre> <?php echo($varsesion)?>
+        </div>
+    
+                <form action="cerrar_sesion.php"method="POST">
+                <div class="form-group">
+                    <button class="btn btnRegistro">Cerrar Sesion</button>
+                    </div>
+                
+                </form>
+            
+            
+           <?php } ?>
+            
+            
+            
         </div>
     </div>
     <div class="main">
