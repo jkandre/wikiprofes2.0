@@ -48,7 +48,7 @@
     <div class="main">
         <div class="resultados container">
             <form action="" method="post">
-                <input type="text" placeholder="Ingresa el profesor o codigo de la materia" name="busqueda">
+            <input type="text" onchange="validarNombre()" placeholder="Ingresa el profesor o codigo de la materia" name="busqueda">
             </form>
             <h2>Resultados de la busqueda: </h2>
             <div class="resultados_profesores">
@@ -205,5 +205,15 @@
             </div>
         </div>
     </div>
+    <script>
+        function validarNombre(){
+            let nombre = document.getElementById("nombre");
+            let nombreRegex = /^[a-zA-Z][a-zA-Z ]*$/;
+            let resultado = nombreRegex.test(nombre.value)
+            if(resultado == false){
+                alert("El nombre debe contener solo letras")
+            }
+        }
+    </script>
 </body>
 </html>

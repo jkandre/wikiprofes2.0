@@ -23,7 +23,7 @@
             <p>wikiprofes2.0</p>
         </div>
         <div class="busqueda">
-            <input type="text" placeholder="Busca a tu profesor...">
+            <input type="text" onchange="validarNombre()" placeholder="Busca a tu profesor...">
         </div>
         <div class="botones">
             <?php if($varsesion==null){?>
@@ -36,14 +36,13 @@
            <?php } ?>
         </div>
     </div>
-
     <div class="main">
         <div class="heroLogin container">
             <div class="heroLogin_form">
                 <form action="" method="post">
                     <h3>Inicia sesion</h3>
-                    <input type="text" placeholder="Correo academico" required>
-                    <input type="password" placeholder="Contraseña" required>
+                    <input type="email" onchange="validarAcademico()" placeholder="Correo academico" id="correo">
+                    <input type="password" placeholder="Contraseña" id="password">
                     <button class="btn">Ingresar</button>
                 </form>
             </div>
@@ -52,7 +51,6 @@
             </div>
         </div>
     </div>
-
     <div class="footer container">
         <div class="footer_logo">
             <p>wikiprofes2.0</p>
@@ -67,5 +65,28 @@
             </div>
         </div>
     </div>
+    <script>
+        function validarNombre(){
+            let nombre = document.getElementById("nombre");
+            let nombreRegex = /^[a-zA-Z][a-zA-Z ]*$/;
+            let resultado = nombreRegex.test(nombre.value)
+            if(resultado == false){
+                alert("El nombre debe contener solo letras")
+            }
+        }
+        function validarAcademico(){
+            let email = document.getElementById("mail");
+            console.log(email.value)
+            let correoRegex = /.+\@(alumnos)\.(udg)\.(mx)/;
+            let resultado = correoRegex.test(email.value);
+            console.log("Correo: " + resultado);
+            if(resultado == true){
+                return true
+            }
+            else{
+                alert("El correo no es institucional.")
+            }
+        }
+    </script>
 </body>
 </html>
