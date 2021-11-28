@@ -76,6 +76,64 @@
             <button class="btn">Evaluar al profesor</button>
             <button class="btn">Reportar error</button>
         </div>
+        <div class="evaluar">
+            <form action="">
+                <h2>Evalua a tu profesor</h2>
+                <div>
+                    <p>Manejo del tema</p>
+                    <div>
+                        <input type="range" list="calificacionesPosibles" step="5">
+                        <!--Aqui tiene que cambiar el numero-->
+                        <span id="evaluacionManejo">100</span>
+                    </div>
+                </div>
+                <div>
+                    <p>Puntualidad</p>
+                    <div>
+                        <input type="range" list="calificacionesPosibles" step="5">
+                        <span id="evaluacionPuntualidad">100</span>
+                    </div>
+                </div>
+                <div>
+                    <p>Dificultad del curso</p>
+                    <div>
+                        <input type="range" list="calificacionesPosibles" step="5">
+                        <span id="evaluacionDificultad">100</span>
+                    </div>
+                </div>
+                <div>
+                    <p>Promedio de alumnos</p>
+                    <div>
+                        <input type="range" list="calificacionesPosibles" step="5">
+                        <span id="evaluacionPromedio">100</span>
+                    </div>
+                </div>
+                <button class="btn">Enviar</button>
+                <datalist id="calificacionesPosibles">
+                    <option value="0" label="0%">
+                    <option value="5">
+                    <option value="10">
+                    <option value="15">
+                    <option value="20">
+                    <option value="25">
+                    <option value="30">
+                    <option value="35">
+                    <option value="40">
+                    <option value="45">
+                    <option value="50" label="50%">
+                    <option value="55">
+                    <option value="60">
+                    <option value="65">
+                    <option value="70">
+                    <option value="75">
+                    <option value="80">
+                    <option value="85">
+                    <option value="90">
+                    <option value="95">
+                    <option value="100" label="100%">
+                </datalist>
+            </form>
+        </div>
         <div class="profesor_cometarios container">
             <h3>Comentarios:</h3>
             <div class="comentario">
