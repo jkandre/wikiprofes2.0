@@ -1,6 +1,10 @@
 <?php
-//SEGURIDAD DE SESIONES
-session_start();
+    include ("conexion.php");
+
+    $conexion=conectar();
+
+    //SEGURIDAD DE SESIONES
+    session_start();
     error_reporting(0);
     $varsesion= $_SESSION['correo'];
 
@@ -38,32 +42,15 @@ session_start();
         </div>
 
         <div class="botones">
-           
-        
-        
-            <?php
-                if($varsesion==null){?>
-
-            <form action="login.php"method="POST">
-                <div class="form-group">
-                    <button class="btn btnLogin">Log In</button>
-                    </div>
-                </form>
-            <form action="registro.php"method="POST">
-                <div class="form-group">
-                    <button class="btn btnRegistro">Registrate</button>
-                    </div>
-                
-                    </form>
+            <?php if($varsesion==null){?>
+                <a class="btn btnLogin" href="login.php">Log In</a>
+                <a class="btn btnRegistro" href="registro.php">Registrate</a>
             <?php }?>
 
             <?php
             if($varsesion!=null){?>
             
            <?php } ?>
-            
-            
-            
         </div>
     </div>
     <div class="main">
@@ -84,12 +71,12 @@ session_start();
                 <div class="bodyA_funcion">
                     <h3>Comenta</h3>
                     <p>Comparte tus experiencias con la comunidad para ayudar a mas compañeros a traves de un comentario sobre algun profesor o materia</p>
-                    <button class="btn">Comentar</button>
+                    <a class="btn" href="login.php">Comentar</a>
                 </div>
                 <div class="bodyA_funcion">
                     <h3>Califica a un profesor</h3>
                     <p>Los papeles se invierten. Evalua a un profesor en base a 4 puntos. Ayuda a la comunidad agregando datos de tu profesor</p>
-                    <button class="btn">Calificar</button>
+                    <a class="btn" href="login.php">Calificar</a>
                 </div>
             </div>
         </div>

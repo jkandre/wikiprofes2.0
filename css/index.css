@@ -70,7 +70,7 @@
     font-weight: 300;
     font-size: 1.1rem;  
 }
-.bodyA_funcion button{
+.bodyA_funcion a{
     align-self: flex-start;
     font-weight: 400;
     font-size: 1.1rem;
@@ -83,7 +83,7 @@
     -ms-transition: .3s;
     -o-transition: .3s;
 }
-.bodyA_funcion button:hover{
+.bodyA_funcion a:hover{
     cursor: pointer;
     border: 1.5px solid var(--naranja);
     background-color: #FFFFFF;

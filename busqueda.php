@@ -1,3 +1,9 @@
+<?php
+    include ("conexion.php");
+
+    $conexion=conectar();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,16 +33,30 @@
             <!--<input type="text" placeholder="Busca a tu profesor...">-->
         </div>
         <div class="botones">
-            <button class="btn btnLogin">Log In</button>
-            <button class="btn btnRegistro">Registrate</button>
+            <?php if($varsesion==null){?>
+                <a class="btn btnLogin" href="login.php">Log In</a>
+                <a class="btn btnRegistro" href="registro.php">Registrate</a>
+            <?php }?>
+
+            <?php
+            if($varsesion!=null){?>
+            
+           <?php } ?>
         </div>
     </div>
 
     <div class="main">
         <div class="resultados container">
-            <input type="text" placeholder="Ingresa el profesor o codigo de la materia">
+            <form action="" method="post">
+                <input type="text" placeholder="Ingresa el profesor o codigo de la materia" name="busqueda">
+            </form>
             <h2>Resultados de la busqueda: </h2>
             <div class="resultados_profesores">
+                <?php 
+                    $result=null;
+                    $consulta="SELECT *from maestros";
+
+                ?>
                 <button class="resultados_profesor">
                     <div class="profesor_detalles">
                         <div class="profesor_nombre">

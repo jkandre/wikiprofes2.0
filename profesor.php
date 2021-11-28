@@ -1,3 +1,10 @@
+<?php
+    include ("conexion.php");
+
+    $conexion=conectar();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,8 +35,15 @@
             <input type="text" placeholder="Busca a tu profesor...">
         </div>
         <div class="botones">
-            <button class="btn btnLogin">Log In</button>
-            <button class="btn btnRegistro">Registrate</button>
+            <?php if($varsesion==null){?>
+                <a class="btn btnLogin" href="login.php">Log In</a>
+                <a class="btn btnRegistro" href="registro.php">Registrate</a>
+            <?php }?>
+
+            <?php
+            if($varsesion!=null){?>
+            
+           <?php } ?>
         </div>
     </div>
 
