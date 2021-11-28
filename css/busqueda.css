@@ -1,5 +1,6 @@
 .resultados{
-    width: 100vw;
+    width: 80vw;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     grid-template-rows: max-content max-content 1fr;
@@ -11,6 +12,7 @@
     font-weight: 400;
     font-family: 'Montserrat', sans-serif;
     height: 2.3rem;
+    width: 50%;
     font-size: 1rem;
     border: none;
     padding-left: 2.5rem;
@@ -29,7 +31,7 @@
     align-items: center;
 }
 .resultados_profesores .resultados_profesor{
-    width: 70%;
+    width: 100%;
     display: grid;
     grid-template-columns: 70% 30%;
     padding: 2rem;
