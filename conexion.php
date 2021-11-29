@@ -1,6 +1,6 @@
 <?php
     function conectar(){
-        $baseDatos="wikiprofes2.0";
+        $baseDatos="wikiprofes";
         $usuario="root";
         $contrasena="";
         $servidor="localhost";
