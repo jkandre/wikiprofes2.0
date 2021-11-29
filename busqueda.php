@@ -1,7 +1,11 @@
 <?php
-    include ("conexion.php");
+    
     include ("formularios.php");
-    $conexion=conectar();
+    $conexion = mysqli_connect('localhost', 'root', '', 'wikiprofes');
+     //SEGURIDAD DE SESIONES
+     session_start();
+     error_reporting(0);
+     $varsesion= $_SESSION['correo'];
 
 ?>
 <!DOCTYPE html>
@@ -34,13 +38,31 @@
         </div>
         <div class="botones">
             <?php if($varsesion==null){?>
-                <a class="btn btnLogin" href="login.php">Log In</a>
-                <a class="btn btnRegistro" href="registro.php">Registrate</a>
+                <form action="login.php"method="POST">
+                <div class="form-group">
+                    <button class="btn btnLogin">Log In</button>
+                    </div>
+                </form>
+            <form action="registro.php"method="POST">
+                <div class="form-group">
+                    <button class="btn btnRegistro">Registrate</button>
+                    </div>
+
+                    </form>
             <?php }?>
 
             <?php
             if($varsesion!=null){?>
-            
+                 <div class="logo">
+                <h1>Bienvenido: </h1><pre> <?php echo($varsesion)?>
+                </div>
+    
+                <form action="cerrar_sesion.php"method="POST">
+                <div class="form-group">
+                    <button class="btn btnRegistro">Cerrar Sesion</button>
+                    </div>
+                
+                </form>
            <?php } ?>
         </div>
     </div>

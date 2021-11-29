@@ -1,5 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<?php
+    if (!isset($_SESSION)){
+        session_start();
+    }
+    $_SESSION['mensaje'] = '';
+    $_SESSION['aux'] = false;
+    $db = mysqli_connect('localhost', 'root', '', 'wikiprofes'); 
+    if(isset($_POST['registrarse'])){
+        //if(!empty($_POST['name'])&& !empty($_POST['apellido']) && !empty($_POST['correo']) && !empty($_POST['contrasena']) && !empty($_POST['contrasena2'])){
+           
+            $email = explode("@",$_POST['correo']);
+            if(($email[1]=='alumnos.udg.mx') || ($email[1]=='ALUMNOS.UDG.MX')){
+                if($_POST['contrasena'] == $_POST['contrasena2']){
+                $nombre=$_POST['name'];
+                $ap=$_POST['apellido'];
+                $correo=$_POST['correo'];
+                $contrasena=$_POST['contrasena'];
+                $result=mysqli_query($db, "INSERT INTO usuarios (nombre, apellido, correo, contrasena) VALUES ('$nombre', '$ap', '$correo', '$contrasena')");
+                if(!$result){
+                    die("Query Failed");
+                    $_SESSION['mensaje'] = "";
+
+                }
+                else{
+                    $_SESSION['mensaje']='¡Registrado satisfactoriamente!';
+                    $_SESSION['aux'] = true;
+                }
+            }
+            //else{
+              //  $mensaje='¡Las contraseñas no coinciden!';
+            //}
+        }
+            //else{
+              //  $mensaje='No puedes registrarte con ese correo';
+            //}
+
+        
+        //}
+    
+    //else{
+      //  $mensaje='¡Campos incompletos!';
+    //}
+}
+
+   ?>
+
+
+
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,18 +74,18 @@
             <p>wikiprofes2.0</p>
         </div>
         <div class="busqueda">
-            <input type="text" placeholder="Busca a tu profesor...">
+        <form action="busqueda.php"method="POST">
+                        <div class="botones">
+                        <input type="text" name="busqueda"  placeholder="Ingresa el profesor o codigo de la materia"> 
+                            <button class="btn" name="buscarR">Buscar</button>
+                        </div>
+                </form>
         </div>
-        <div class="botones">
-            <?php if($varsesion==null){?>
-                <a class="btn btnLogin" href="login.php">Log In</a>
-            <?php }?>
-
-            <?php
-            if($varsesion!=null){?>
-            
-           <?php } ?>
-        </div>
+        <form action="login.php"method="POST">
+            <div class="botones">
+                <button class="btn btnLogin">Log In</button>
+                </div>
+                </form>
     </div>
     <div class="main">
         <div class="heroRegistro container">
@@ -43,16 +93,22 @@
                 <h1>Unete hoy mismo a la comunidad de recomendaciones CUCEI</h1>
             </div>
             <div class="heroRegistro_form">
-                <form action="" method="post">
+                <form action="registro.php" method="post">
                     <h3>Registrate de forma gratuita</h3>
                     <div class="nombreForm">
-                        <input type="text" onchange="validarNombre()" placeholder="Nombre" id="nombre" required>
-                        <input type="text" onchange="validarApellido()" placeholder="Apellido" id="apellido" required>
+                        <input type="text" class="input" onchange="validarNombre()" name="name"placeholder="Nombre" id="nombre" required>
+                        <input type="text" class="input" onchange="validarApellido()"name="apellido" placeholder="Apellido" id="apellido" required>
                     </div>
-                    <input type="email" onchange="validarAcademico()" placeholder="Correo academico" id="mail" required>
-                    <input type="password" placeholder="Contraseña" id="pass1" required>
-                    <input type="password" onchange="validarContra()"" placeholder="Confirmar contraseña" id="pass2" required>
-                    <button class="btn">Registrarse</button>
+                    <input type="email" class="input" onchange="validarAcademico()" name="correo" placeholder="Correo academico" id="mail" required>
+                    <input type="password" class="input" name="contrasena" placeholder="Contraseña" id="pass1" required>
+                    <input type="password" class="input" onchange="validarContra()" name="contrasena2"  placeholder="Confirmar contraseña" id="pass2" required>
+                    <button class="btn button"  name="registrarse" disabled>Registrarse</button>
+                    <?php 
+                        if(isset($_SESSION['aux']) && $_SESSION['aux']){
+                            //$_SESSION['aux'] = false;
+                            header("location:index.php");
+                        }
+                    ?>  
                 </form>
             </div>
         </div>
@@ -72,6 +128,21 @@
         </div>
     </div>
     <script>
+        let input = document.querySelector(".input");
+        let button = document.querySelector(".button");
+        button.disabled = true;
+        input.addEventListener("change", stateHandle);
+        function stateHandle() {
+            if(document.querySelector(".input").value === "") {
+            button.disabled = true;
+            }
+            else{
+            button.disabled = false;
+            }
+        }
+
+
+
         function validarAcademico(){
             let email = document.getElementById("mail");
             console.log(email.value)
@@ -79,10 +150,11 @@
             let resultado = correoRegex.test(email.value);
             console.log("Correo: " + resultado);
             if(resultado == true){
-                return true
+                return true;
             }
             else{
                 alert("El correo no es institucional.")
+                return false;
             }
         }
         function validarNombre(){
@@ -91,6 +163,10 @@
             let resultado = nombreRegex.test(nombre.value)
             if(resultado == false){
                 alert("El nombre debe contener solo letras")
+                return false;
+            }
+            else{
+                return true;
             }
         }
         function validarApellido(){
@@ -99,6 +175,10 @@
             let resultado2 = nombreRegex.test(apellido.value)
             if(resultado2 == false){
                 alert("El apellido debe contener solo letras")
+                return false;
+            }
+            else{
+                return true;
             }
         }
         function validarContra(){
@@ -106,11 +186,13 @@
             let pass2 = document.getElementById("pass2");
             if(pass1.value != pass2.value){
                 alert("Las contraseñas no coinciden");
+                return false;
             }
             else{
                 return true;
             }
         }
+
     </script>
 </body>
 </html>

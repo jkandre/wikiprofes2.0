@@ -1,12 +1,47 @@
-<?php
-    include ("conexion.php");
-    $conexion=conectar();
-
-
-    include ("formularios.php");   
-?>
 <!DOCTYPE html>
 <html lang="en">
+<?php
+$conexion = mysqli_connect('localhost', 'root', '', 'wikiprofes');
+
+    if(isset($_POST['login'])){
+    
+        if(!empty($_POST['correo'])&& !empty($_POST['contrasena']) ){
+    
+    
+        $correo=$_POST['correo'];
+        $contrasena=$_POST['contrasena'];
+        session_start();
+       
+    
+        $consulta="SELECT * from usuarios where correo='$correo' and contrasena='$contrasena'";
+        $result=mysqli_query($conexion, $consulta);
+            
+        $filas=mysqli_num_rows($result);
+           
+            if($filas){
+                $_SESSION['correo']=$correo;
+               header("Location: index.php");
+        
+            if(!$result){
+                die("Query Failed");
+             }
+            }
+        else{
+            $mensaje='Correo/contraseña incorrectos';
+        }   
+    
+        mysqli_free_result($result);
+        mysqli_close($conexion);
+        
+        }
+    
+    else{
+        $mensaje='¡Campos incompletos!';
+    }
+    
+    }
+
+?>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -30,27 +65,26 @@
             <p>wikiprofes2.0</p>
         </div>
         <div class="busqueda">
-            <input type="text" onchange="validarNombre()" placeholder="Busca a tu profesor..." name="nombre">
+            <input type="text" onchange="validarNombre()" placeholder="Busca a tu profesor...">
         </div>
-        <div class="botones">
-            <?php if($varsesion==null){?>
-                <a class="btn btnRegistro" href="registro.php">Registrate</a>
-            <?php }?>
-
-            <?php
-            if($varsesion!=null){?>
-            
-           <?php } ?>
-        </div>
+        <form action="registro.php"method="POST">
+            <div class="botones">
+                <button class="btn btnRegistro">Registrate</button>
+                </div>
+        </form>
     </div>
     <div class="main">
         <div class="heroLogin container">
             <div class="heroLogin_form">
-                <form name="formLogin" action="formularios.php" method="post">
+                <form action="login.php" method="post">
                     <h3>Inicia sesion</h3>
-                    <input type="email" onchange="validarAcademico()" placeholder="Correo academico" id="correo" name="correo">
-                    <input type="password" placeholder="Contraseña" id="password" name="pass">
-                    <button class="btn" name="enviarLogBtn">Ingresar</button>
+                    <input type="email" onchange="validarAcademico()" name="correo" placeholder="Correo academico" id="correo">
+                    <input type="password"name="contrasena" placeholder="Contraseña" id="password">
+                    <button class="btn"name="login">Ingresar</button>
+                    <?php
+                if(!empty($mensaje)):?>
+                <p><?= $mensaje ?></p>
+                <?php endif;?>
                 </form>
             </div>
             <div class="heroLogin_text">
