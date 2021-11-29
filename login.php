@@ -1,3 +1,10 @@
+<?php
+    include ("conexion.php");
+    $conexion=conectar();
+
+
+    include ("formularios.php");   
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +30,7 @@
             <p>wikiprofes2.0</p>
         </div>
         <div class="busqueda">
-            <input type="text" onchange="validarNombre()" placeholder="Busca a tu profesor...">
+            <input type="text" onchange="validarNombre()" placeholder="Busca a tu profesor..." name="nombre">
         </div>
         <div class="botones">
             <?php if($varsesion==null){?>
@@ -39,11 +46,11 @@
     <div class="main">
         <div class="heroLogin container">
             <div class="heroLogin_form">
-                <form action="" method="post">
+                <form name="formLogin" action="formularios.php" method="post">
                     <h3>Inicia sesion</h3>
-                    <input type="email" onchange="validarAcademico()" placeholder="Correo academico" id="correo">
-                    <input type="password" placeholder="Contraseña" id="password">
-                    <button class="btn">Ingresar</button>
+                    <input type="email" onchange="validarAcademico()" placeholder="Correo academico" id="correo" name="correo">
+                    <input type="password" placeholder="Contraseña" id="password" name="pass">
+                    <button class="btn" name="enviarLogBtn">Ingresar</button>
                 </form>
             </div>
             <div class="heroLogin_text">
