@@ -4,7 +4,7 @@
     //SEGURIDAD DE SESIONES
     session_start();
     error_reporting(0);
-    $varsesion= $_SESSION['correo'];
+    $varsesion= $_SESSION['nombre'];
 
 
 ?>
@@ -42,13 +42,13 @@
         <div class="botones">
             <?php if($varsesion==null){?>
                 <form action="login.php"method="POST">
-                <div class="form-group">
-                    <button class="btn btnLogin">Log In</button>
+                    <div class="form-group">
+                        <button class="btn btnLogin">Log In</button>
                     </div>
                 </form>
-            <form action="registro.php"method="POST">
-                <div class="form-group">
-                    <button class="btn btnRegistro">Registrate</button>
+                <form action="registro.php"method="POST">
+                    <div class="form-group">
+                        <button class="btn btnRegistro">Registrate</button>
                     </div>
 
                     </form>
@@ -56,13 +56,13 @@
 
             <?php
             if($varsesion!=null){?>
-                 <div class="logo">
-                <h1>Bienvenido: </h1><pre> <?php echo($varsesion)?>
+                 <div class="user">
+                    <h1>Bienvenido/a: <?php echo($varsesion)?></h1>
                 </div>
     
                 <form action="cerrar_sesion.php"method="POST">
-                <div class="form-group">
-                    <button class="btn btnRegistro">Cerrar Sesion</button>
+                    <div class="form-group">
+                        <button class="cerrarSesion"><i class="fas fa-sign-out-alt"></i></button>
                     </div>
                 
                 </form>
@@ -76,7 +76,11 @@
             <div class="heroA_text">
                 <div class="heroA_content">
                     <h1>Busca referencias sobre tus profesores y materias ahora mismo.</h1>
-                    <input type="text" placeholder="Ingresa el profesor o codigo de la materia">
+                    
+                    <form name="formBusqueda" action="busqueda.php" method="post">
+                        <input type="text" onchange="validarNombre()" placeholder="Ingresa el profesor o codigo de la materia" name="busqueda">
+                    </form>
+                    
                 </div>
             </div>
         </div>

@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-$conexion = mysqli_connect('localhost', 'root', '', 'wikiprofes');
+    $conexion = mysqli_connect('localhost', 'root', '', 'wikiprofes');
+
+    session_start();
+    error_reporting(0);
+    $varsesion= $_SESSION['nombre'];
+    if($varsesion!=null){
+        header("Location: index.php");
+    } 
 
     if(isset($_POST['login'])){
     
@@ -15,17 +22,27 @@ $conexion = mysqli_connect('localhost', 'root', '', 'wikiprofes');
     
         $consulta="SELECT * from usuarios where correo='$correo' and contrasena='$contrasena'";
         $result=mysqli_query($conexion, $consulta);
+        $nombre="";
             
-        $filas=mysqli_num_rows($result);
+       // $filas=mysqli_num_rows($result);
            
-            if($filas){
-                $_SESSION['correo']=$correo;
+        if(mysqli_num_rows($result)>0){
+            while($row=mysqli_fetch_array($result))
+            {
+                $nombre= $row['nombre'];
+            }
+            $_SESSION['nombre']=$nombre;
+            header("Location: index.php");
+        }
+            
+            /*if($filas){
+                $_SESSION['nombre']=$correo;
                header("Location: index.php");
         
             if(!$result){
                 die("Query Failed");
              }
-            }
+            }*/
         else{
             $mensaje='Correo/contraseña incorrectos';
         }   
@@ -62,10 +79,12 @@ $conexion = mysqli_connect('localhost', 'root', '', 'wikiprofes');
 <body>
     <div class="nav container">
         <div class="logo">
-            <p>wikiprofes2.0</p>
+            <a href="index.php">wikiprofes2.0</a>
         </div>
         <div class="busqueda">
-            <input type="text" onchange="validarNombre()" placeholder="Busca a tu profesor...">
+        <form name="formBusqueda" action="busqueda.php" method="post">
+                <input type="text" onchange="validarNombre()" placeholder="Ingresa el profesor o codigo de la materia" name="busqueda">
+        </form>
         </div>
         <form action="registro.php"method="POST">
             <div class="botones">

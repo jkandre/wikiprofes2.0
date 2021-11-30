@@ -38,6 +38,10 @@ body{
     align-items: center;
     color: #FFFFFF;
 }
+.logo a{
+    color: #FFFFFF;
+    text-decoration: none;
+}
 .nav .busqueda{
     height: 100%;
     display: flex;
@@ -79,6 +83,18 @@ body{
     gap: 1rem;
     justify-content: center;
     align-items: center;
+}
+.botones .user{
+    color: #FFFFFF;
+}
+.botones .cerrarSesion{
+    cursor: pointer;
+    color: #FFFFFF;
+    background-color: var(--azul1);
+    border: none;
+}
+.cerrarSesion i{
+    font-size: 1.5rem;
 }
 .botones .btnLogin{
     color: var(--naranja);

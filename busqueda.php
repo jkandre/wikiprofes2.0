@@ -3,9 +3,11 @@
     include ("formularios.php");
     $conexion = mysqli_connect('localhost', 'root', '', 'wikiprofes');
      //SEGURIDAD DE SESIONES
-     session_start();
-     error_reporting(0);
-     $varsesion= $_SESSION['correo'];
+    session_start();
+    error_reporting(0);
+    $varsesion= $_SESSION['nombre'];
+
+     
 
 ?>
 <!DOCTYPE html>
@@ -30,14 +32,14 @@
 <body>
     <div class="nav container">
         <div class="logo">
-            <p>wikiprofes2.0</p>
+            <a href="index.php">wikiprofes2.0</a>
         </div>
         <!-- NO APLICA SOLO PARA EL INDEX-->
         <div class="busqueda">
             <!--<input type="text" placeholder="Busca a tu profesor...">-->
         </div>
         <div class="botones">
-            <?php if($varsesion==null){?>
+            <?php if($varsesion==null){ ?>
                 <form action="login.php"method="POST">
                 <div class="form-group">
                     <button class="btn btnLogin">Log In</button>
@@ -51,15 +53,14 @@
                     </form>
             <?php }?>
 
-            <?php
-            if($varsesion!=null){?>
-                 <div class="logo">
-                <h1>Bienvenido: </h1><pre> <?php echo($varsesion)?>
+            <?php if($varsesion!=null){ ?>
+                 <div class="user">
+                    <h1>Bienvenido/a: <?php echo($varsesion)?></h1>
                 </div>
     
                 <form action="cerrar_sesion.php"method="POST">
-                <div class="form-group">
-                    <button class="btn btnRegistro">Cerrar Sesion</button>
+                    <div class="form-group">
+                        <button class="cerrarSesion"><i class="fas fa-sign-out-alt"></i></button>
                     </div>
                 
                 </form>
@@ -78,11 +79,13 @@
                     if(isset($_POST['busqueda']))
                     {
                         $busq =$_POST['busqueda'];
-                        $query=mysqli_query($conexion, "SELECT * FROM profesores WHERE nombre LIKE '%$busq%'");
+                        $query=mysqli_query($conexion, "SELECT p.idprofesor,p.nombre,m.materia,e.manejoTema,e.puntualidad,e.dificultad,e.promedioAlumnos from profesores as p join materias as m on p.idprofesor=m.idprofesor join evaluaciones as e on p.idprofesor=e.idprofesor WHERE p.nombre LIKE '%$busq%' or m.materia LIKE '%$busq%';");
                         if(mysqli_num_rows($query)>0){
                             while($row=mysqli_fetch_array($query))
                             {?>
-                                <button class="resultados_profesor">
+                                 <a href="profesor.php?id=<?php echo $row['idprofesor']?>" style="text-decoration:none" class="resultados_profesor" > 
+                                
+                    
                                     <div class="profesor_detalles">
                                         <div class="profesor_nombre">
                                             <h3>Profesor: </h3>
@@ -91,29 +94,33 @@
                                         <div class="profesor_materia">
                                             <h3>Materias</h3>
                                             <div>
-                                                <a href="#">i5898</a>
+                                            <p><?php echo $row['materia']  ?></p>
+                                               <!-- <a href="#">i5898</a>  -->
                                             </div>
                                         </div>
                                     </div>
                                     <div class="profesor_puntaje">
                                         <div>
                                             <h3>Manejo del tema: </h3>
-                                            <p>100%</p>
+                                            <p><?php echo $row['manejoTema']  ?></p> <p>%</p>
                                         </div>
                                         <div>
                                             <h3>Puntualidad: </h3>
-                                            <p>100%</p>
+                                            <p><?php echo $row['puntualidad']  ?></p> <p>%</p>
                                         </div>
                                         <div>
                                             <h3>Dificultad del curso: </h3>
-                                            <p>70%</p>
+                                            <p><?php echo $row['dificultad']  ?></p> <p>%</p>
                                         </div>
                                         <div>
                                             <h3>Promedio: </h3>
-                                            <p>100%</p>
+                                            <p><?php echo $row['promedioAlumnos']  ?></p> <p>%</p>
                                         </div>
                                     </div>
-                                </button>
+                                    
+                                   
+                                
+                                </a>
                         <?php }}} ?>
             </div>
         </div>

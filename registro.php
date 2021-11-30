@@ -2,6 +2,13 @@
 <html lang="en">
 
 <?php
+    session_start();
+    error_reporting(0);
+    $varsesion= $_SESSION['nombre'];
+    if($varsesion!=null){
+        header("Location: index.php");
+    } 
+
     if (!isset($_SESSION)){
         session_start();
     }
@@ -71,15 +78,12 @@
 <body>
     <div class="nav container">
         <div class="logo">
-            <p>wikiprofes2.0</p>
+            <a href="index.php">wikiprofes2.0</a>
         </div>
         <div class="busqueda">
-        <form action="busqueda.php"method="POST">
-                        <div class="botones">
-                        <input type="text" name="busqueda"  placeholder="Ingresa el profesor o codigo de la materia"> 
-                            <button class="btn" name="buscarR">Buscar</button>
-                        </div>
-                </form>
+        <form name="formBusqueda" action="busqueda.php" method="post">
+            <input type="text"  placeholder="Ingresa el profesor o codigo de la materia" name="busqueda">
+        </form>
         </div>
         <form action="login.php"method="POST">
             <div class="botones">

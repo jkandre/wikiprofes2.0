@@ -1,7 +1,10 @@
 <?php
-    include ("conexion.php");
-
-    $conexion=conectar();
+    
+    $conexion = mysqli_connect('localhost', 'root', '', 'wikiprofes');
+    //SEGURIDAD DE SESIONES
+    session_start();
+    error_reporting(0);
+    $varsesion= $_SESSION['nombre'];
 
 ?>
 
@@ -28,11 +31,13 @@
 <body>
     <div class="nav container">
         <div class="logo">
-            <p>wikiprofes2.0</p>
+            <a href="index.php">wikiprofes2.0</a>
         </div>
         <!-- NO APLICA SOLO PARA EL INDEX-->
         <div class="busqueda">
-            <input type="text" placeholder="Busca a tu profesor...">
+        <form name="formBusqueda" action="busqueda.php" method="post">
+            <input type="text"  placeholder="Ingresa el profesor o codigo de la materia" name="busqueda">
+        </form>
         </div>
         <div class="botones">
             <?php if($varsesion==null){?>
@@ -42,84 +47,111 @@
 
             <?php
             if($varsesion!=null){?>
-            
-           <?php } ?>
+                <div class="user">
+                   <h1>Bienvenido/a: <?php echo($varsesion)?></h1>
+               </div>
+   
+               <form action="cerrar_sesion.php"method="POST">
+                   <div class="form-group">
+                       <button class="cerrarSesion"><i class="fas fa-sign-out-alt"></i></button>
+                   </div>
+               
+               </form>
+          <?php } ?>
         </div>
     </div>
 
     <div class="main">
         <!--Perfil del profesor-->
         <div class="profesor container">
-            <h2>MORALES RAMIREZ THELMA ISABEL</h2>
+
+       <?php if(isset($_GET['id'])){
+        $id = $_GET['id'];
+       
+	    $result=mysqli_query($conexion, "SELECT p.idprofesor,p.nombre,m.materia,e.manejoTema,e.puntualidad,e.dificultad,e.promedioAlumnos from profesores as p join materias as m on p.idprofesor=m.idprofesor join evaluaciones as e on p.idprofesor=e.idprofesor  WHERE p.idprofesor = $id");
+
+        if(mysqli_num_rows($result)>0){
+            $row=mysqli_fetch_array($result);
+            $nombre= $row['nombre'];
+            $materia= $row['materia'];
+            $mt= $row['manejoTema'];
+            $puntualidad = $row['puntualidad'];
+            $dificultad= $row['dificultad'];
+            $pA=$row['promedioAlumnos'];
+            $calificacion= round(($mt + $puntualidad + $pA) / 3) ;
+        ?>
+
+            <h2><?php echo $nombre ?></h2>
             <div class="info_datos">
                 <h2>Informacion general:</h2>
                 <h3>Universidad: <span>Universidad de Guadalajara</span></h3>
                 <h3>Centro: <span>Centro Universitario de Ciencias Exactas e Ingenieria</span></h3>
                 <h3>Materias:</h3>
                 <div class="info_materias">
-                    <a href="">i5899</a>
-                    <a href="">i5899</a>
-                    <a href="">i5899</a>
-                    <a href="">i5899</a>
-                    <a href="">i5899</a>
-                    <a href="">i5899</a>
-                    <a href="">i5899</a>
-                    <a href="">i5899</a>
-                    <a href="">i5899</a>
-                    <a href="">i5899</a>
-                    <a href="">i5899</a>
+                    <p><?php echo $materia ?></p>
                 </div>
             </div>
             <div class="info_calificaciones">
-                <h2>Calificacion: <span>86% (basado en 15 evaluaciones)</span></h2>
+              <!--  <h2>Calificacion: <span>86% (basado en 15 evaluaciones)</span></h2>  -->
+                <h2>Calificacion: <span> <?php echo  "$calificacion %"?>  </span></h2>  
                 <div>
-                    <h3>Manejo del tema:</h3><p>90%</p>
+                    <h3>Manejo del tema:</h3> <p><?php echo  $mt ?></p> <p>%</p>
                 </div>
                 <div>
-                    <h3>Puntualidad:</h3><p>90%</p>
+                    <h3>Puntualidad:</h3> <p><?php echo  $puntualidad ?></p> <p>%</p>
                 </div>
                 <div>
-                    <h3>Dificultad del curso:</h3><p>90%</p>
+                    <h3>Dificultad del curso:</h3> <p><?php echo $dificultad  ?></p> <p>%</p>
                 </div>
                 <div>
-                    <h3>Promedio alumnos:</h3><p>90%</p>
+                    <h3>Promedio alumnos:</h3> <p><?php echo  $pA ?></p> <p>%</p>
                 </div>
             </div>
+            
+        <?php }} ?>
+        
         </div>
         <div class="profesor_botones container">
-            <button class="btn">Evaluar al profesor</button>
+            <?php if($varsesion!=null){ ?>
+                <button class="btn" onclick="evaluarProfesor()">Evaluar al profesor</button>
+            <?php } ?>   
+            <?php if($varsesion==null){ ?>
+                <a class="btn" href="login.php">Evaluar al profesor</a>
+            <?php } ?>  
             <button class="btn">Reportar error</button>
         </div>
-        <div class="evaluar">
+        <div class="evaluar" id="modalEvaluacion">
             <form action="">
                 <h2>Evalua a tu profesor</h2>
+                <i class="fas fa-times" id="equisModal"></i>
+                
                 <div>
                     <p>Manejo del tema</p>
                     <div>
-                        <input type="range" list="calificacionesPosibles" step="5">
+                        <input type="range" list="calificacionesPosibles" step="5" oninput="manejo(this.value)" onchange="manejo(this.value)">
                         <!--Aqui tiene que cambiar el numero-->
-                        <span id="evaluacionManejo">100</span>
+                        <span id="evaluacionManejo">50</span>
                     </div>
                 </div>
                 <div>
                     <p>Puntualidad</p>
                     <div>
-                        <input type="range" list="calificacionesPosibles" step="5">
-                        <span id="evaluacionPuntualidad">100</span>
+                        <input type="range" list="calificacionesPosibles" step="5" oninput="puntualidad(this.value)" onchange="puntualidad(this.value)">
+                        <span id="evaluacionPuntualidad">50</span>
                     </div>
                 </div>
                 <div>
                     <p>Dificultad del curso</p>
                     <div>
-                        <input type="range" list="calificacionesPosibles" step="5">
-                        <span id="evaluacionDificultad">100</span>
+                        <input type="range" list="calificacionesPosibles" step="5" oninput="dificultad(this.value)" onchange="dificultad(this.value)">
+                        <span id="evaluacionDificultad">50</span>
                     </div>
                 </div>
                 <div>
                     <p>Promedio de alumnos</p>
                     <div>
-                        <input type="range" list="calificacionesPosibles" step="5">
-                        <span id="evaluacionPromedio">100</span>
+                        <input type="range" list="calificacionesPosibles" step="5" oninput="promedio(this.value)" onchange="promedio(this.value)">
+                        <span id="evaluacionPromedio">50</span>
                     </div>
                 </div>
                 <button class="btn">Enviar</button>
@@ -150,34 +182,21 @@
         </div>
         <div class="profesor_cometarios container">
             <h3>Comentarios:</h3>
-            <div class="comentario">
-                <div class="meta_comentario">
-                    <h3>Usuario</h3>
-                    <p>04/08/2021</p>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget mi at felis euismod mattis. Pellentesque id gravida urna. Morbi imperdiet egestas mauris, eu vestibulum quam accumsan et. Donec sagittis pellentesque massa, vel fringilla ligula ornare at. Proin molestie tempus dolor nec mattis. Sed eu metus vitae mi viverra dignissim et vitae est. Proin volutpat arcu eget auctor facilisis. Nunc maximus, ex a maximus vehicula, orci ante accumsan nulla, fermentum sollicitudin risus leo ac justo.
-
-                Sed lobortis vel ligula id vehicula. Aenean blandit odio libero, et convallis libero varius quis. Etiam feugiat augue et enim lacinia mollis. Praesent sagittis, urna.</p>
-            </div>
-            <div class="comentario">
-                <div class="meta_comentario">
-                    <h3>Usuario</h3>
-                    <p>04/08/2021</p>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget mi at felis euismod mattis. Pellentesque id gravida urna. Morbi imperdiet egestas mauris, eu vestibulum quam accumsan et. Donec sagittis pellentesque massa, vel fringilla ligula ornare at. Proin molestie tempus dolor nec mattis. Sed eu metus vitae mi viverra dignissim et vitae est. Proin volutpat arcu eget auctor facilisis. Nunc maximus, ex a maximus vehicula, orci ante accumsan nulla, fermentum sollicitudin risus leo ac justo.
-
-                Sed lobortis vel ligula id vehicula. Aenean blandit odio libero, et convallis libero varius quis. Etiam feugiat augue et enim lacinia mollis. Praesent sagittis, urna.</p>
-            </div>
-            <div class="comentario">
-                <div class="meta_comentario">
-                    <h3>Usuario</h3>
-                    <p>04/08/2021</p>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eget mi at felis euismod mattis. Pellentesque id gravida urna. Morbi imperdiet egestas mauris, eu vestibulum quam accumsan et. Donec sagittis pellentesque massa, vel fringilla ligula ornare at. Proin molestie tempus dolor nec mattis. Sed eu metus vitae mi viverra dignissim et vitae est. Proin volutpat arcu eget auctor facilisis. Nunc maximus, ex a maximus vehicula, orci ante accumsan nulla, fermentum sollicitudin risus leo ac justo.
-
-                Sed lobortis vel ligula id vehicula. Aenean blandit odio libero, et convallis libero varius quis. Etiam feugiat augue et enim lacinia mollis. Praesent sagittis, urna.</p>
-            </div>
-        </div>
+            <?php if(isset($_GET['id'])){
+                $id = $_GET['id'];
+	            $result=mysqli_query($conexion, "SELECT u.idUsuario,u.nombre,c.idprofesor,c.comentario,c.fecha from usuarios as u join comentarios as c on u.idUsuario=c.idUsuario where c.idprofesor= $id");
+                if(mysqli_num_rows($result)>0){
+                    while($row=mysqli_fetch_array($result))
+                    {  ?>
+                        <div class="comentario">
+                            <div class="meta_comentario">
+                                <h3><?php echo $row['nombre']  ?></h3>
+                                <p><?php echo $row['fecha']  ?></p>
+                            </div>
+                            <p><?php echo $row['comentario']  ?></p>
+                        </div>
+                    <?php }}} ?>
+        </div> 
     </div>
 
     <div class="footer container">
@@ -194,5 +213,37 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function cerrarModal(){
+            document.getElementById("modalEvaluacion").setAttribute("style","width:0vw");
+        }
+
+        document.getElementById("equisModal").addEventListener('click', function() {
+            cerrarModal();
+        });
+        
+
+        function evaluarProfesor(){
+            document.getElementById("modalEvaluacion").setAttribute("style","width:100vw");
+        }
+
+        function manejo(newVal){
+            document.getElementById("evaluacionManejo").innerHTML=newVal;
+        }
+
+        function puntualidad(newVal){
+            document.getElementById("evaluacionPuntualidad").innerHTML=newVal;
+        }
+
+        function dificultad(newVal){
+            document.getElementById("evaluacionDificultad").innerHTML=newVal;
+        }
+
+        function promedio(newVal){
+            document.getElementById("evaluacionPromedio").innerHTML=newVal;
+        }
+
+    </script>
 </body>
 </html>

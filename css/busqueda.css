@@ -44,6 +44,9 @@
     -ms-transition: .3s;
     -o-transition: .3s;
 }
+.resultados_profesor p{
+    color: #000000;
+}
 .resultados_profesores .resultados_profesor:hover{
     border: 1px solid #FF4C29;
     cursor: pointer;
